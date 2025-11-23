@@ -1,0 +1,124 @@
+.googleLogo {
+    width: 80px;
+    justify-content: center;
+}
+
+.loginCard {
+    text-align: center;
+    border: solid 1px rgb(91, 170, 255);
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.206);
+    padding: 20px;
+    margin: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset rgba(255, 255, 255, 0.5)  10px 10px 20px 10px;
+    height: 200%;
+}
+
+body {
+    background-color: rgb(255, 232, 216);
+    padding: 10px;
+    font-family:Arial, Helvetica, sans-serif;
+    background-image: url('https://www.thedailyupside.com/wp-content/uploads/2021/04/iStock-1154834209.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    text-align: center;
+    display: flexbox;
+    zoom: 110%;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    border-radius: 5px;
+    border: solid 2px rgb(161, 196, 255);
+    padding: 8px;
+    width: 93%;
+    background-color: rgba(255, 255, 255, 0.206);
+    transition-duration: 0.2s;
+}
+
+input:focus {
+    outline: none;
+    border: solid 2px rgb(102, 158, 255);
+    transition-duration: 0.2s;
+}
+
+input::placeholder {
+    font-size: 11px;
+    color: rgb(201, 201, 201);
+}
+
+.inputBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.forgotLink {
+    text-align: left;
+    font-size: 14px;
+    color: rgb(26, 115, 232);
+    text-decoration: none;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.forgotLink:hover {
+    text-decoration: underline;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+button.create {
+    border: none;
+    outline: none;
+    color: rgb(26, 115, 232);
+    background-color: transparent;
+    padding: 10px 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500px;
+}
+
+.next {
+    border: none;
+    outline: none;
+    color: white;
+    background-color: rgb(26, 115, 232);
+    padding: 10px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px;
+}
+
+.next:hover {
+    background-color: rgb(25, 103, 210);
+    cursor: pointer;
+    
+}
+
+#copyrightNotice {
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    margin-top: 20px;
+    position: fixed;
+    bottom: 5px;
+    text-align: center;
+}
+
+.forgotLink{
+    color: rgb(26, 115, 232);
+    float: right;
+
+}
