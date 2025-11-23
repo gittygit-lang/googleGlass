@@ -1,98 +1,78 @@
-var minimize = document.getElementById("minimize");
-var square = document.getElementById("square");
-var exit = document.getElementById("exit");
-var titleBar = document.getElementById("title-bar");
+// Cleaned script: hover, open/close, maximize, and draggable behavior
+$(function(){
+  var $window = $('#window');
+  var $content = $('#content');
+  var $title = $('#title-bar');
+  var $square = $('#square');
+  var $exit = $('#exit');
+  var $minimize = $('#minimize');
+  var $clickme = $('#clickme');
 
-////////////////// Hover listeners //////////////////
-minimize.addEventListener('mouseover', function handleMouseOver() {
-  minimize.style.backgroundColor = '#272727';
-  minimize.style.cursor = 'context-menu';
-});
+  // Hover styles for title bar buttons
+  $minimize.hover(function(){ $(this).css({'background-color':'#272727','cursor':'context-menu'}); }, function(){ $(this).css({'background-color':'black','cursor':'default'}); });
+  $square.hover(function(){ $(this).css({'background-color':'#272727','cursor':'context-menu'}); }, function(){ $(this).css({'background-color':'black','cursor':'default'}); });
+  $exit.hover(function(){ $(this).css({'background-color':'red','cursor':'context-menu'}); }, function(){ $(this).css({'background-color':'black','cursor':'default'}); });
 
-minimize.addEventListener('mouseout', function handleMouseOut() {
-  minimize.style.backgroundColor = 'black';
-  minimize.style.cursor = 'default';
-});
+  // Image hover to darken
+  $clickme.on('mouseover', function(){ $(this).css({'filter':'brightness(0.8)','cursor':'pointer'}); });
+  $clickme.on('mouseout', function(){ $(this).css({'filter':'brightness(1)'}); });
 
-square.addEventListener('mouseover', function handleMouseOver() {
-  square.style.backgroundColor = '#272727';
-  square.style.cursor = 'context-menu';
-});
+  // Open window
+  $clickme.on('click', function(){ $window.fadeIn(120); });
 
-square.addEventListener('mouseout', function handleMouseOut() {
-  square.style.backgroundColor = 'black';
-  square.style.cursor = 'default';
-});
+  // Exit (fade out)
+  $exit.on('click', function(){ $window.fadeOut(200); });
 
-exit.addEventListener('mouseover', function handleMouseOver() {
-  exit.style.backgroundColor = 'red';
-  exit.style.cursor = 'context-menu';
-});
+  // Helper to restore to normal size
+  function restoreWindow() {
+    $window.css({position: 'relative', left: 'auto', top: 'auto', width: '60%', height: '659px', margin: '10px auto'});
+    $content.css('height','600px');
+    $square.removeClass('enlarged');
+  }
 
-exit.addEventListener('mouseout', function handleMouseOut() {
-  exit.style.backgroundColor = 'black';
-  exit.style.cursor = 'default';
-});
-
-titleBar.addEventListener('mouseover', function handleMouseOver() {
-  titleBar.style.cursor = 'context-menu';
-});
-
-titleBar.addEventListener('mouseout', function handleMouseOver() {
-  titleBar.style.cursor = 'default';
-});
-
-
-//////////////// Make window draggable start ////////////////
-// Make the DIV element draggable:
-var draggable = $('#window');
-var title = $('#title-bar');
-
-title.on('mousedown', function(e){
-	var dr = $(draggable).addClass("drag");
-	height = dr.outerHeight();
-	width = dr.outerWidth();
-	ypos = dr.offset().top + height - e.pageY,
-	xpos = dr.offset().left + width - e.pageX;
-	$(document.body).on('mousemove', function(e){
-		var itop = e.pageY + ypos - height;
-		var ileft = e.pageX + xpos - width;
-		if(dr.hasClass("drag")){
-			dr.offset({top: itop,left: ileft});
-		}
-	}).on('mouseup', function(e){
-			dr.removeClass("drag");
-	});
-});
-//////////////// Make window draggable end ////////////////
-
-
-////////////////// Onclick listeners //////////////////
-// X button functionality
-$("#exit").click(function(){
-    $("#window").css("display", "none");
+  // Maximize / restore toggle
+  $square.on('click', function(){
+    if($square.hasClass('enlarged')){
+      // restore
+      restoreWindow();
+    } else {
+      // maximize
+      $window.css({position: 'fixed', left: 0, top: 0, width: '100%', height: '100vh', margin: 0});
+      $content.css('height','calc(100vh - 59px)');
+      $square.addClass('enlarged');
+    }
   });
 
-// Maximize button functionality
-$("#square").click(enlarge);
+  // Draggable behavior
+  $title.on('mousedown', function(e){
+    e.preventDefault();
+    var dr = $window;
+    var titleHeight = $title.outerHeight() || 31;
 
-function enlarge(){
-  if(square.classList.contains("enlarged")){
-    $("#window").css("width", "40%");
-    $("#title-bar-width").css('width', '100%').css('width', '+=2px');
-    $("#content").css("width", "100%");
-    $("#square").removeClass("enlarged");
-  }
-  else{
-    $("#window").css("width", "70%");
-    $("#title-bar-width").css('width', '100%').css('width', '+=2px');
-    $("#content").css("width", "100%");
-    $("#square").addClass("enlarged");
-  }
-}
+    // If enlarged, restore and position so mouse touches middle of title bar
+    if($square.hasClass('enlarged')){
+      restoreWindow();
+      dr.outerWidth(); // force reflow
+      var winW = dr.outerWidth();
+      var newLeft = e.pageX - Math.round(winW/2);
+      var newTop = e.pageY - Math.round(titleHeight/2);
+      dr.offset({left: newLeft, top: newTop});
+    }
 
+    var startOffset = dr.offset();
+    var offsetX = e.pageX - startOffset.left;
+    var offsetY = e.pageY - startOffset.top;
 
-//// Pop-up appear on click with delay ////
-$("#clickme").click(function(){
-    $("#window").fadeIn(300);
+    dr.addClass('drag');
+
+    $(document).on('mousemove.windowDrag', function(ev){
+      var newLeft = ev.pageX - offsetX;
+      var newTop = ev.pageY - offsetY;
+      dr.offset({left: newLeft, top: newTop});
+    }).on('mouseup.windowDrag', function(){
+      dr.removeClass('drag');
+      $(document).off('.windowDrag');
+    });
   });
+
+});

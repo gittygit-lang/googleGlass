@@ -65,7 +65,7 @@ input::placeholder {
 }
 
 .forgotLink:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .buttonContainer {
