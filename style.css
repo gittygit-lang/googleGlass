@@ -94,7 +94,7 @@ body {
 
 #content {
   width: 100%;
-  height: 700px;
+  height: 600px;
   border: 1px solid gray;
 }
 
@@ -103,8 +103,8 @@ body {
   background-color: transparent;
   border-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  height: 759px; /* title bar height + content height */
-  width: 40%;
+  height: 600px; /* title bar: 31px + 28px + iframe: 500px */
+  width: 60%;
   margin: 10px;
 }
   
